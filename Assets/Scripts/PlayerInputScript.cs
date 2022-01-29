@@ -53,6 +53,15 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwapLevel"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""f2e13b9d-f4ae-4250-a691-7940c080efb9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +141,39 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
                     ""action"": ""MoveVertically"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Arrows"",
+                    ""id"": ""e7287ee0-4789-43f1-9278-8767f9f9fbb4"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapLevel"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Negative"",
+                    ""id"": ""c0c2d59d-7e4c-4be8-a9d1-2b2b65c59258"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapLevel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Positive"",
+                    ""id"": ""05a21990-1403-4d24-a5ae-4378efaffd89"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapLevel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -143,6 +185,7 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
         m_Ground_MoveHorizontally = m_Ground.FindAction("MoveHorizontally", throwIfNotFound: true);
         m_Ground_Jump = m_Ground.FindAction("Jump", throwIfNotFound: true);
         m_Ground_MoveVertically = m_Ground.FindAction("MoveVertically", throwIfNotFound: true);
+        m_Ground_SwapLevel = m_Ground.FindAction("SwapLevel", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -205,6 +248,7 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
     private readonly InputAction m_Ground_MoveHorizontally;
     private readonly InputAction m_Ground_Jump;
     private readonly InputAction m_Ground_MoveVertically;
+    private readonly InputAction m_Ground_SwapLevel;
     public struct GroundActions
     {
         private @PlayerInputScript m_Wrapper;
@@ -212,6 +256,7 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
         public InputAction @MoveHorizontally => m_Wrapper.m_Ground_MoveHorizontally;
         public InputAction @Jump => m_Wrapper.m_Ground_Jump;
         public InputAction @MoveVertically => m_Wrapper.m_Ground_MoveVertically;
+        public InputAction @SwapLevel => m_Wrapper.m_Ground_SwapLevel;
         public InputActionMap Get() { return m_Wrapper.m_Ground; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -230,6 +275,9 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
                 @MoveVertically.started -= m_Wrapper.m_GroundActionsCallbackInterface.OnMoveVertically;
                 @MoveVertically.performed -= m_Wrapper.m_GroundActionsCallbackInterface.OnMoveVertically;
                 @MoveVertically.canceled -= m_Wrapper.m_GroundActionsCallbackInterface.OnMoveVertically;
+                @SwapLevel.started -= m_Wrapper.m_GroundActionsCallbackInterface.OnSwapLevel;
+                @SwapLevel.performed -= m_Wrapper.m_GroundActionsCallbackInterface.OnSwapLevel;
+                @SwapLevel.canceled -= m_Wrapper.m_GroundActionsCallbackInterface.OnSwapLevel;
             }
             m_Wrapper.m_GroundActionsCallbackInterface = instance;
             if (instance != null)
@@ -243,6 +291,9 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
                 @MoveVertically.started += instance.OnMoveVertically;
                 @MoveVertically.performed += instance.OnMoveVertically;
                 @MoveVertically.canceled += instance.OnMoveVertically;
+                @SwapLevel.started += instance.OnSwapLevel;
+                @SwapLevel.performed += instance.OnSwapLevel;
+                @SwapLevel.canceled += instance.OnSwapLevel;
             }
         }
     }
@@ -252,5 +303,6 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
         void OnMoveHorizontally(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnMoveVertically(InputAction.CallbackContext context);
+        void OnSwapLevel(InputAction.CallbackContext context);
     }
 }
