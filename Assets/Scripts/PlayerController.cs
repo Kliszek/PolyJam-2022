@@ -5,15 +5,21 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private PlayerInputScript playerActionsControls;
+
+    GameManager gameManager;
+
     public float movementSpeed;
     //private bool touchingGround;
     //public float gravityModifier;
-    public float levelRadius;
     public float playerRadius;
     //public int levelUnitWidth;
-    public Transform levelLeft;
-    public Transform levelRight;
     public GameObject particles;
+    bool canDash;
+    [Header("Dash")]
+    public float dashDuration;
+    public float dashCooldown;
+    public float dashModifier;
+    private float dashCounter;
 
     float rotationSpeed;
 
@@ -33,20 +39,33 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        gameManager = GameManager.instance;
+
+        canDash = true;
         transform.parent.Find("Crosshair").gameObject.SetActive(false);
         rotationSpeed = movementSpeed * 90 /Mathf.PI*2;
     }
 
     void Update()
     {
+        if (!canDash)
+        {
+            dashCounter -= Time.deltaTime;
+            if(dashCounter <= 0.0f)
+            {
+                dashCounter = 0.0f;
+                canDash = true;
+            }
+        }
+
         PerformMovement();
 
         int swapInput = (int)playerActionsControls.Ground.SwapLevel.ReadValue<float>();
 
         if (swapInput == -1)
-            SwapLevel(levelLeft);
+            SwapLevel(gameManager.levelLeft);
         else if (swapInput == 1)
-            SwapLevel(levelRight);
+            SwapLevel(gameManager.levelRight);
     }
 
     void SwapLevel(Transform level)
@@ -73,13 +92,27 @@ public class PlayerController : MonoBehaviour
         if (moveVector != Vector3.zero)
         {
             transform.rotation = Quaternion.LookRotation(moveVector);
+
+            bool dashPressed = playerActionsControls.Ground.Dash.ReadValue<float>() == 1.0f;
+            if (canDash && dashPressed)
+            {
+                canDash = false;
+                dashCounter = dashCooldown;
+                moveVector *= dashModifier;
+            }
+            else if (dashCounter >= dashCooldown - dashDuration)
+            {
+                moveVector *= dashModifier;
+            }
+
             transform.GetChild(0).Rotate(Vector3.right * Time.deltaTime * rotationSpeed);
         }
 
         moveVector *= Time.deltaTime * movementSpeed;
 
-        currentPosition.x = Mathf.Clamp(currentPosition.x + moveVector.x, playerRadius - levelRadius, levelRadius - playerRadius);
-        currentPosition.z = Mathf.Clamp(currentPosition.z + moveVector.z, playerRadius - levelRadius, levelRadius - playerRadius);
+        float clampValue = gameManager.levelRadius - playerRadius;
+        currentPosition.x = Mathf.Clamp(currentPosition.x + moveVector.x, -clampValue, clampValue);
+        currentPosition.z = Mathf.Clamp(currentPosition.z + moveVector.z, -clampValue, clampValue);
 
         transform.localPosition = currentPosition;
     }
@@ -87,7 +120,7 @@ public class PlayerController : MonoBehaviour
     Vector2 GetArrayPosition()
     {
         Vector2 position = new Vector2(transform.localPosition.x, transform.localPosition.z);
-        position += Vector2.one * (levelRadius - playerRadius);
+        position += Vector2.one * (gameManager.levelRadius - playerRadius);
         return position;
     }
 
@@ -99,7 +132,7 @@ public class PlayerController : MonoBehaviour
 
     void SetLocalPosition(Vector2 position)
     {
-        position -= Vector2.one * (levelRadius - playerRadius);
+        position -= Vector2.one * (gameManager.levelRadius - playerRadius);
 
         transform.localPosition = new Vector3(position.x, transform.localPosition.y, position.y);
     }

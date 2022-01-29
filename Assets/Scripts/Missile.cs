@@ -6,17 +6,23 @@ public class Missile : MonoBehaviour
 {
     public float speed;
     public float rotationSpeed;
-
+    public GameObject explosion;
+    GameManager gameManager;
 
     void Start()
     {
-        
+        gameManager = GameManager.instance;
     }
 
     void Update()
     {
         transform.Translate(Vector3.up*speed*Time.deltaTime);
         transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
+
+        if (Mathf.Abs(transform.position.x) > 2*gameManager.levelRadius || Mathf.Abs(transform.position.z) > 2 * gameManager.levelRadius)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -33,6 +39,7 @@ public class Missile : MonoBehaviour
 
     void Explode()
     {
-        Destroy(this.gameObject);
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 }

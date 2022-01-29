@@ -7469,3 +7469,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   rotationSpeed: 10
+  explosion: {fileID: 5590469084924666386, guid: 9f4280572234e3d43abcb53a97a289f5, type: 3}

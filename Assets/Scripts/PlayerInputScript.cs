@@ -62,6 +62,15 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""c4ba4102-009c-4b44-acda-cf2e17e287c2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -174,6 +183,17 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
                     ""action"": ""SwapLevel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b7dfa6f-ae84-4a11-9642-373a95bac227"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -186,6 +206,7 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
         m_Ground_Jump = m_Ground.FindAction("Jump", throwIfNotFound: true);
         m_Ground_MoveVertically = m_Ground.FindAction("MoveVertically", throwIfNotFound: true);
         m_Ground_SwapLevel = m_Ground.FindAction("SwapLevel", throwIfNotFound: true);
+        m_Ground_Dash = m_Ground.FindAction("Dash", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -249,6 +270,7 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
     private readonly InputAction m_Ground_Jump;
     private readonly InputAction m_Ground_MoveVertically;
     private readonly InputAction m_Ground_SwapLevel;
+    private readonly InputAction m_Ground_Dash;
     public struct GroundActions
     {
         private @PlayerInputScript m_Wrapper;
@@ -257,6 +279,7 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Ground_Jump;
         public InputAction @MoveVertically => m_Wrapper.m_Ground_MoveVertically;
         public InputAction @SwapLevel => m_Wrapper.m_Ground_SwapLevel;
+        public InputAction @Dash => m_Wrapper.m_Ground_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Ground; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -278,6 +301,9 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
                 @SwapLevel.started -= m_Wrapper.m_GroundActionsCallbackInterface.OnSwapLevel;
                 @SwapLevel.performed -= m_Wrapper.m_GroundActionsCallbackInterface.OnSwapLevel;
                 @SwapLevel.canceled -= m_Wrapper.m_GroundActionsCallbackInterface.OnSwapLevel;
+                @Dash.started -= m_Wrapper.m_GroundActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_GroundActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_GroundActionsCallbackInterface.OnDash;
             }
             m_Wrapper.m_GroundActionsCallbackInterface = instance;
             if (instance != null)
@@ -294,6 +320,9 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
                 @SwapLevel.started += instance.OnSwapLevel;
                 @SwapLevel.performed += instance.OnSwapLevel;
                 @SwapLevel.canceled += instance.OnSwapLevel;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
             }
         }
     }
@@ -304,5 +333,6 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnMoveVertically(InputAction.CallbackContext context);
         void OnSwapLevel(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
     }
 }
