@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     public Transform levelRight;
     public GameObject particles;
 
+    float rotationSpeed;
+
     private void Awake()
     {
         playerActionsControls = new PlayerInputScript();
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         transform.parent.Find("Crosshair").gameObject.SetActive(false);
+        rotationSpeed = movementSpeed * 90 /Mathf.PI*2;
     }
 
     void Update()
@@ -65,11 +68,18 @@ public class PlayerController : MonoBehaviour
         float movementUpwards = playerActionsControls.Ground.MoveVertically.ReadValue<float>();
 
         Vector3 currentPosition = transform.localPosition;
-        Vector2 moveVector = Vector2.right * movementSideways + Vector2.up * movementUpwards;
+        Vector3 moveVector = Vector3.right * movementSideways + Vector3.forward * movementUpwards;
+
+        if (moveVector != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(moveVector);
+            transform.GetChild(0).Rotate(Vector3.right * Time.deltaTime * rotationSpeed);
+        }
+
         moveVector *= Time.deltaTime * movementSpeed;
 
         currentPosition.x = Mathf.Clamp(currentPosition.x + moveVector.x, playerRadius - levelRadius, levelRadius - playerRadius);
-        currentPosition.z = Mathf.Clamp(currentPosition.z + moveVector.y, playerRadius - levelRadius, levelRadius - playerRadius);
+        currentPosition.z = Mathf.Clamp(currentPosition.z + moveVector.z, playerRadius - levelRadius, levelRadius - playerRadius);
 
         transform.localPosition = currentPosition;
     }
