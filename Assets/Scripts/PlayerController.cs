@@ -6,13 +6,14 @@ public class PlayerController : MonoBehaviour
 {
     private PlayerInputScript playerActionsControls;
     public float movementSpeed;
-    private bool touchingGround;
-    public float gravityModifier;
+    //private bool touchingGround;
+    //public float gravityModifier;
     public float levelRadius;
     public float playerRadius;
-    public int levelUnitWidth;
+    //public int levelUnitWidth;
     public Transform levelLeft;
     public Transform levelRight;
+    public GameObject particles;
 
     private void Awake()
     {
@@ -51,7 +52,9 @@ public class PlayerController : MonoBehaviour
             return;
         transform.parent.Find("Crosshair").gameObject.SetActive(true);
         level.Find("Crosshair").gameObject.SetActive(false);
-        Vector2 savedPosition = GetArrayPosition();
+        Vector2 savedPosition = GetArrayIntPosition();
+        if (particles)
+            GameObject.Instantiate(particles, transform.position, transform.rotation);
         transform.parent = level;
         SetLocalPosition(savedPosition);
     }
