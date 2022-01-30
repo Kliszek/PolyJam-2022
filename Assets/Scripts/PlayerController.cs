@@ -14,12 +14,17 @@ public class PlayerController : MonoBehaviour
     public float playerRadius;
     //public int levelUnitWidth;
     public GameObject particles;
-    bool canDash;
+    [Header("Teleport")]
+    public float teleportCooldown;
+    private float teleportCounter;
+    bool canTeleport;
+
     [Header("Dash")]
     public float dashDuration;
     public float dashCooldown;
     public float dashModifier;
     private float dashCounter;
+    bool canDash;
 
     float rotationSpeed;
 
@@ -42,6 +47,7 @@ public class PlayerController : MonoBehaviour
         gameManager = GameManager.instance;
 
         canDash = true;
+        canTeleport = true;
         transform.parent.Find("Crosshair").gameObject.SetActive(false);
         rotationSpeed = movementSpeed * 90 /Mathf.PI*2;
     }
@@ -57,20 +63,36 @@ public class PlayerController : MonoBehaviour
                 canDash = true;
             }
         }
+        if (!canTeleport)
+        {
+            teleportCounter -= Time.deltaTime;
+            if (teleportCounter <= 0.0f)
+            {
+                teleportCounter = 0.0f;
+                canTeleport = true;
+            }
+        }
+
 
         PerformMovement();
 
         int swapInput = (int)playerActionsControls.Ground.SwapLevel.ReadValue<float>();
 
+        if (canTeleport && swapInput == 1)
+            SwapLevel();
+        /*
         if (swapInput == -1)
             SwapLevel(gameManager.levelLeft);
         else if (swapInput == 1)
             SwapLevel(gameManager.levelRight);
+        */
     }
 
-    void SwapLevel(Transform level)
+    void SwapLevel(Transform level = null)
     {
-        if (transform.parent == level)
+        if (!level)
+            level = transform.parent == gameManager.levelLeft ? gameManager.levelRight : gameManager.levelLeft;
+        else if (transform.parent == level)
             return;
         transform.parent.Find("Crosshair").gameObject.SetActive(true);
         level.Find("Crosshair").gameObject.SetActive(false);
@@ -79,6 +101,10 @@ public class PlayerController : MonoBehaviour
             GameObject.Instantiate(particles, transform.position, transform.rotation);
         transform.parent = level;
         SetLocalPosition(savedPosition);
+        if (particles)
+            GameObject.Instantiate(particles, transform.position, transform.rotation);
+        canTeleport = false;
+        teleportCounter = teleportCooldown;
     }
 
     void PerformMovement()

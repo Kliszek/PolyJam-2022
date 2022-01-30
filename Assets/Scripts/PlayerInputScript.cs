@@ -25,6 +25,138 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
     ""maps"": [
         {
             ""name"": ""Ground"",
+            ""id"": ""57a50ff9-81ca-451d-9d5b-64c2e0e45732"",
+            ""actions"": [
+                {
+                    ""name"": ""MoveHorizontally"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""eb186005-f54d-44a7-9d3e-a07f25b4db3f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveVertically"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""7e7e550c-0a7f-41ef-baa3-ca8de9850573"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwapLevel"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""d9ba73cb-a2cc-48bc-93d4-c18b5ec2d2ff"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""13b267e0-f393-4b1e-bbdd-da53a3064f6a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""Arrows"",
+                    ""id"": ""2dca1f20-6cc4-428b-83ad-36637bbb3575"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveHorizontally"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""7ed6da22-f457-4acc-be1d-8df000243e24"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveHorizontally"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""2abebf00-e3de-4ce9-bd36-f7f064c497ca"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveHorizontally"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Arrows"",
+                    ""id"": ""cf8e207f-3df2-4daa-bcb1-4a4c1f80adee"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveVertically"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""2274ab51-8ff1-4c02-9fbc-a7d0f4a9afed"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveVertically"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""13884b12-285b-48f9-a925-801ff7731f7e"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveVertically"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""27eaf314-47f8-493f-a1fe-cc340f48d27e"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1d6ae0f3-1826-4289-87a9-03e095f859ae"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapLevel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""GroundAlt"",
             ""id"": ""aee335f4-9bc1-4a48-9149-b1f8e9aceb40"",
             ""actions"": [
                 {
@@ -203,10 +335,16 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
         // Ground
         m_Ground = asset.FindActionMap("Ground", throwIfNotFound: true);
         m_Ground_MoveHorizontally = m_Ground.FindAction("MoveHorizontally", throwIfNotFound: true);
-        m_Ground_Jump = m_Ground.FindAction("Jump", throwIfNotFound: true);
         m_Ground_MoveVertically = m_Ground.FindAction("MoveVertically", throwIfNotFound: true);
         m_Ground_SwapLevel = m_Ground.FindAction("SwapLevel", throwIfNotFound: true);
         m_Ground_Dash = m_Ground.FindAction("Dash", throwIfNotFound: true);
+        // GroundAlt
+        m_GroundAlt = asset.FindActionMap("GroundAlt", throwIfNotFound: true);
+        m_GroundAlt_MoveHorizontally = m_GroundAlt.FindAction("MoveHorizontally", throwIfNotFound: true);
+        m_GroundAlt_Jump = m_GroundAlt.FindAction("Jump", throwIfNotFound: true);
+        m_GroundAlt_MoveVertically = m_GroundAlt.FindAction("MoveVertically", throwIfNotFound: true);
+        m_GroundAlt_SwapLevel = m_GroundAlt.FindAction("SwapLevel", throwIfNotFound: true);
+        m_GroundAlt_Dash = m_GroundAlt.FindAction("Dash", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -267,7 +405,6 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Ground;
     private IGroundActions m_GroundActionsCallbackInterface;
     private readonly InputAction m_Ground_MoveHorizontally;
-    private readonly InputAction m_Ground_Jump;
     private readonly InputAction m_Ground_MoveVertically;
     private readonly InputAction m_Ground_SwapLevel;
     private readonly InputAction m_Ground_Dash;
@@ -276,7 +413,6 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
         private @PlayerInputScript m_Wrapper;
         public GroundActions(@PlayerInputScript wrapper) { m_Wrapper = wrapper; }
         public InputAction @MoveHorizontally => m_Wrapper.m_Ground_MoveHorizontally;
-        public InputAction @Jump => m_Wrapper.m_Ground_Jump;
         public InputAction @MoveVertically => m_Wrapper.m_Ground_MoveVertically;
         public InputAction @SwapLevel => m_Wrapper.m_Ground_SwapLevel;
         public InputAction @Dash => m_Wrapper.m_Ground_Dash;
@@ -292,9 +428,6 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
                 @MoveHorizontally.started -= m_Wrapper.m_GroundActionsCallbackInterface.OnMoveHorizontally;
                 @MoveHorizontally.performed -= m_Wrapper.m_GroundActionsCallbackInterface.OnMoveHorizontally;
                 @MoveHorizontally.canceled -= m_Wrapper.m_GroundActionsCallbackInterface.OnMoveHorizontally;
-                @Jump.started -= m_Wrapper.m_GroundActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_GroundActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_GroundActionsCallbackInterface.OnJump;
                 @MoveVertically.started -= m_Wrapper.m_GroundActionsCallbackInterface.OnMoveVertically;
                 @MoveVertically.performed -= m_Wrapper.m_GroundActionsCallbackInterface.OnMoveVertically;
                 @MoveVertically.canceled -= m_Wrapper.m_GroundActionsCallbackInterface.OnMoveVertically;
@@ -306,6 +439,68 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
                 @Dash.canceled -= m_Wrapper.m_GroundActionsCallbackInterface.OnDash;
             }
             m_Wrapper.m_GroundActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @MoveHorizontally.started += instance.OnMoveHorizontally;
+                @MoveHorizontally.performed += instance.OnMoveHorizontally;
+                @MoveHorizontally.canceled += instance.OnMoveHorizontally;
+                @MoveVertically.started += instance.OnMoveVertically;
+                @MoveVertically.performed += instance.OnMoveVertically;
+                @MoveVertically.canceled += instance.OnMoveVertically;
+                @SwapLevel.started += instance.OnSwapLevel;
+                @SwapLevel.performed += instance.OnSwapLevel;
+                @SwapLevel.canceled += instance.OnSwapLevel;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
+            }
+        }
+    }
+    public GroundActions @Ground => new GroundActions(this);
+
+    // GroundAlt
+    private readonly InputActionMap m_GroundAlt;
+    private IGroundAltActions m_GroundAltActionsCallbackInterface;
+    private readonly InputAction m_GroundAlt_MoveHorizontally;
+    private readonly InputAction m_GroundAlt_Jump;
+    private readonly InputAction m_GroundAlt_MoveVertically;
+    private readonly InputAction m_GroundAlt_SwapLevel;
+    private readonly InputAction m_GroundAlt_Dash;
+    public struct GroundAltActions
+    {
+        private @PlayerInputScript m_Wrapper;
+        public GroundAltActions(@PlayerInputScript wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MoveHorizontally => m_Wrapper.m_GroundAlt_MoveHorizontally;
+        public InputAction @Jump => m_Wrapper.m_GroundAlt_Jump;
+        public InputAction @MoveVertically => m_Wrapper.m_GroundAlt_MoveVertically;
+        public InputAction @SwapLevel => m_Wrapper.m_GroundAlt_SwapLevel;
+        public InputAction @Dash => m_Wrapper.m_GroundAlt_Dash;
+        public InputActionMap Get() { return m_Wrapper.m_GroundAlt; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GroundAltActions set) { return set.Get(); }
+        public void SetCallbacks(IGroundAltActions instance)
+        {
+            if (m_Wrapper.m_GroundAltActionsCallbackInterface != null)
+            {
+                @MoveHorizontally.started -= m_Wrapper.m_GroundAltActionsCallbackInterface.OnMoveHorizontally;
+                @MoveHorizontally.performed -= m_Wrapper.m_GroundAltActionsCallbackInterface.OnMoveHorizontally;
+                @MoveHorizontally.canceled -= m_Wrapper.m_GroundAltActionsCallbackInterface.OnMoveHorizontally;
+                @Jump.started -= m_Wrapper.m_GroundAltActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_GroundAltActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_GroundAltActionsCallbackInterface.OnJump;
+                @MoveVertically.started -= m_Wrapper.m_GroundAltActionsCallbackInterface.OnMoveVertically;
+                @MoveVertically.performed -= m_Wrapper.m_GroundAltActionsCallbackInterface.OnMoveVertically;
+                @MoveVertically.canceled -= m_Wrapper.m_GroundAltActionsCallbackInterface.OnMoveVertically;
+                @SwapLevel.started -= m_Wrapper.m_GroundAltActionsCallbackInterface.OnSwapLevel;
+                @SwapLevel.performed -= m_Wrapper.m_GroundAltActionsCallbackInterface.OnSwapLevel;
+                @SwapLevel.canceled -= m_Wrapper.m_GroundAltActionsCallbackInterface.OnSwapLevel;
+                @Dash.started -= m_Wrapper.m_GroundAltActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_GroundAltActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_GroundAltActionsCallbackInterface.OnDash;
+            }
+            m_Wrapper.m_GroundAltActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @MoveHorizontally.started += instance.OnMoveHorizontally;
@@ -326,8 +521,15 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
             }
         }
     }
-    public GroundActions @Ground => new GroundActions(this);
+    public GroundAltActions @GroundAlt => new GroundAltActions(this);
     public interface IGroundActions
+    {
+        void OnMoveHorizontally(InputAction.CallbackContext context);
+        void OnMoveVertically(InputAction.CallbackContext context);
+        void OnSwapLevel(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
+    }
+    public interface IGroundAltActions
     {
         void OnMoveHorizontally(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
