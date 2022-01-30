@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour
     {
         Cursor.visible = true;
         Time.timeScale = 0.0f;
+        paused = true;
         loseScreen.SetActive(true);
         loseScreen.transform.Find("Score").GetComponent<Text>().text = $"You survived for:\n{timeSurvived.ToString("#00.00")} seconds";
         if(timeRunOut)
