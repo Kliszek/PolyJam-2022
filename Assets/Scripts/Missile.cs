@@ -7,6 +7,7 @@ public class Missile : MonoBehaviour
     public float speed;
     public float rotationSpeed;
     public GameObject explosion;
+    bool followPlayer = false;
     GameManager gameManager;
 
     void Start()
@@ -16,10 +17,13 @@ public class Missile : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.up*speed*Time.deltaTime);
-        transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
+        transform.Translate(Vector3.forward*speed*Time.deltaTime);
+        transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
 
-        if (Mathf.Abs(transform.position.x) > 2*gameManager.levelRadius || Mathf.Abs(transform.position.z) > 2 * gameManager.levelRadius)
+        if(followPlayer)
+            transform.LookAt(gameManager.playerInstance.transform);
+
+        if (Mathf.Abs(transform.localPosition.x) > 2*gameManager.levelRadius || Mathf.Abs(transform.localPosition.z) > 2 * gameManager.levelRadius)
         {
             Destroy(gameObject);
         }

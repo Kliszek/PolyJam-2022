@@ -5,17 +5,18 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
-    public float levelRadius;
+    public int levelRadius;
     public static GameManager instance;
 
     public PlayerController playerInstance;
-    public float score;
+    public float timeSurvived;
 
     public Transform levelLeft;
     public Transform levelRight;
 
-    // Start is called before the first frame update
-    void Start()
+    public MissileSpawner[] missileSpawners;
+
+    void Awake()
     {
         if (!instance)
             instance = this;
@@ -24,12 +25,11 @@ public class GameManager : MonoBehaviour
         if (!playerInstance)
             Debug.LogError("ERROR! No player object found!!");
 
-        score = 0.0f;
+        timeSurvived = 0.0f;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        timeSurvived += Time.deltaTime;
     }
 }
