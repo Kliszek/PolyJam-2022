@@ -55,6 +55,7 @@ public class MissileSpawner : MonoBehaviour
 
         newMissile.transform.position += sides[(side+1)&3] * (gameManager.levelRadius - gameManager.playerInstance.playerRadius - row);
         newMissile.GetComponent<Missile>().maxDistance = maxDistanceToDestroy;
+        newMissile.GetComponent<Missile>().speed = projectile == missile ? missileSpeed : homingSpeed;
     }
 
     void Update()
