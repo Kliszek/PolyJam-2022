@@ -13,6 +13,7 @@ public class Missile : MonoBehaviour
     public float maxDistance = 13.0f;
     public bool collideWithEachOther = true;
     public float lifespan = 20.0f;
+    public bool quietTimeoutDestroy = true;
 
     void Start()
     {
@@ -23,7 +24,7 @@ public class Missile : MonoBehaviour
     {
         lifespan -= Time.deltaTime;
         if (lifespan <= 0.0f)
-            Explode();
+            Explode(quietTimeoutDestroy);
 
         transform.Translate(Vector3.forward*speed*Time.deltaTime);
         transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
@@ -51,9 +52,10 @@ public class Missile : MonoBehaviour
         }
     }
 
-    void Explode()
+    void Explode(bool quiet = false)
     {
-        Instantiate(explosion, transform.position, Quaternion.identity);
+        if(!quiet)
+            Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }

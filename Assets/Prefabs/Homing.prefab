@@ -2982,6 +2982,7 @@ MonoBehaviour:
   maxDistance: 13
   collideWithEachOther: 1
   lifespan: 7
+  quietTimeoutDestroy: 0
 --- !u!54 &3919693660101680208
 Rigidbody:
   m_ObjectHideFlags: 0

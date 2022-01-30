@@ -25,7 +25,8 @@ public class GameManager : MonoBehaviour
     public GameObject loseScreen;
     public GameObject pauseScreen;
     public GameObject mainScreen;
-    private bool paused;
+    [HideInInspector]
+    public bool paused;
 
 
     public MissileSpawner[] missileSpawners;
@@ -55,11 +56,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        bool pausePressed = playerInstance.GetInputScript().Ground.Pause.ReadValue<float>() == 1.0f;
+        bool pausePressed = playerInstance.GetInputScript().Ground.Pause.WasReleasedThisFrame();
         if (!paused && pausePressed)
             Pause();
-        //else if (paused && pausePressed)
-        //    Resume();
+        else if (paused && pausePressed)
+            Resume();
 
 
         timeSurvived += Time.deltaTime;

@@ -73,12 +73,12 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-
-        PerformMovement();
+        if(!gameManager.paused)
+            PerformMovement();
 
         int swapInput = (int)playerActionsControls.Ground.SwapLevel.ReadValue<float>();
 
-        if (canTeleport && swapInput == 1)
+        if (!gameManager.paused && canTeleport && swapInput == 1)
             SwapLevel();
         /*
         if (swapInput == -1)
