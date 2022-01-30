@@ -88,6 +88,11 @@ public class PlayerController : MonoBehaviour
         */
     }
 
+    public PlayerInputScript GetInputScript()
+    {
+        return playerActionsControls;
+    }
+
     void SwapLevel(Transform level = null)
     {
         if (!level)

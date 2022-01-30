@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +21,11 @@ public class GameManager : MonoBehaviour
 
     public float maxTimeNoTeleportation;
     private float counter;
+    private Text timeSurvivedUI;
+    public GameObject loseScreen;
+    public GameObject pauseScreen;
+    public GameObject mainScreen;
+    private bool paused;
 
 
     public MissileSpawner[] missileSpawners;
@@ -35,18 +41,31 @@ public class GameManager : MonoBehaviour
 
         timeSurvived = 0.0f;
         counter = maxTimeNoTeleportation;
+        loseScreen.SetActive(false);
+        pauseScreen.SetActive(false);
     }
 
     void Start()
     {
         teleportationSlider = GameObject.Find("TeleportationBar").GetComponent<Slider>();
-
+        timeSurvivedUI = GameObject.Find("TimeSurvived").transform.GetChild(0).GetComponent<Text>();
+        paused = true;
+        Time.timeScale = 0.0f;
     }
 
     void Update()
     {
+        bool pausePressed = playerInstance.GetInputScript().Ground.Pause.ReadValue<float>() == 1.0f;
+        if (!paused && pausePressed)
+            Pause();
+        //else if (paused && pausePressed)
+        //    Resume();
+
+
         timeSurvived += Time.deltaTime;
         counter -= Time.deltaTime;
+
+        timeSurvivedUI.text = $"for {timeSurvived.ToString("#00.00")} seconds";
 
         foreach(MissileSpawner ms in missileSpawners)
         {
@@ -60,7 +79,7 @@ public class GameManager : MonoBehaviour
 
         if (counter <= 0.0f)
         {
-            PlayerLost();
+            PlayerLost(true);
             Debug.Log("YOU LOST!");
         }
     }
@@ -71,9 +90,51 @@ public class GameManager : MonoBehaviour
         teleportationSlider.normalizedValue = counter / maxTimeNoTeleportation;
     }
 
-    public void PlayerLost()
+    public void PlayerLost(bool timeRunOut = false)
+    {
+        Cursor.visible = true;
+        Time.timeScale = 0.0f;
+        loseScreen.SetActive(true);
+        loseScreen.transform.Find("Score").GetComponent<Text>().text = $"You survived for:\n{timeSurvived.ToString("#00.00")} seconds";
+        if(timeRunOut)
+        {
+            loseScreen.transform.Find("YouLost").GetComponent<Text>().text = $"You haven't teleported for 10 seconds.\n   You lost.";
+        }
+    }
+
+    public void Restart()
+    {
+        Cursor.visible = true;
+        SceneManager.LoadScene(0);
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1.0f;
+        Cursor.visible = false;
+        pauseScreen.SetActive(false);
+        paused = false;
+    }
+
+    public void Pause()
     {
         Time.timeScale = 0.0f;
+        Cursor.visible = true;
+        pauseScreen.SetActive(true);
+        paused = true;
+    }
 
+    public void StartGame()
+    {
+        paused = false;
+        Cursor.visible = false;
+        Time.timeScale = 1.0f;
+        mainScreen.SetActive(false);
+    }
+
+    public void Quit()
+    {
+        Debug.Log("Quitting game...");
+        Application.Quit();
     }
 }

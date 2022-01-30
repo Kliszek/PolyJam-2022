@@ -62,6 +62,15 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""a5f6def5-ea63-4104-9db5-d48e1256ca00"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -150,6 +159,17 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SwapLevel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b10f1222-5dcc-423d-83df-c143fe5727ec"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -338,6 +358,7 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
         m_Ground_MoveVertically = m_Ground.FindAction("MoveVertically", throwIfNotFound: true);
         m_Ground_SwapLevel = m_Ground.FindAction("SwapLevel", throwIfNotFound: true);
         m_Ground_Dash = m_Ground.FindAction("Dash", throwIfNotFound: true);
+        m_Ground_Pause = m_Ground.FindAction("Pause", throwIfNotFound: true);
         // GroundAlt
         m_GroundAlt = asset.FindActionMap("GroundAlt", throwIfNotFound: true);
         m_GroundAlt_MoveHorizontally = m_GroundAlt.FindAction("MoveHorizontally", throwIfNotFound: true);
@@ -408,6 +429,7 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
     private readonly InputAction m_Ground_MoveVertically;
     private readonly InputAction m_Ground_SwapLevel;
     private readonly InputAction m_Ground_Dash;
+    private readonly InputAction m_Ground_Pause;
     public struct GroundActions
     {
         private @PlayerInputScript m_Wrapper;
@@ -416,6 +438,7 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
         public InputAction @MoveVertically => m_Wrapper.m_Ground_MoveVertically;
         public InputAction @SwapLevel => m_Wrapper.m_Ground_SwapLevel;
         public InputAction @Dash => m_Wrapper.m_Ground_Dash;
+        public InputAction @Pause => m_Wrapper.m_Ground_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Ground; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -437,6 +460,9 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
                 @Dash.started -= m_Wrapper.m_GroundActionsCallbackInterface.OnDash;
                 @Dash.performed -= m_Wrapper.m_GroundActionsCallbackInterface.OnDash;
                 @Dash.canceled -= m_Wrapper.m_GroundActionsCallbackInterface.OnDash;
+                @Pause.started -= m_Wrapper.m_GroundActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_GroundActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_GroundActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_GroundActionsCallbackInterface = instance;
             if (instance != null)
@@ -453,6 +479,9 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -528,6 +557,7 @@ public partial class @PlayerInputScript : IInputActionCollection2, IDisposable
         void OnMoveVertically(InputAction.CallbackContext context);
         void OnSwapLevel(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IGroundAltActions
     {
