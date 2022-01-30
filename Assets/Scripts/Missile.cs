@@ -45,7 +45,8 @@ public class Missile : MonoBehaviour
         }
         else if(collision.gameObject.tag == "Player")
         {
-            Debug.Log("YOU LOSE");
+            gameManager.PlayerLost();
+            Debug.Log("You died. I survived max 40 seconds, yeah.");
         }
     }
 

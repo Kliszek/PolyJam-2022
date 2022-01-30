@@ -12,18 +12,27 @@ public class MissileSpawner : MonoBehaviour
 {
 
     GameManager gameManager;
+
+    [Header("Missiles")]
     public GameObject missile;
+    public float timeBetweenMissiles;
+    public float missileSpeed = 6.0f;
+    private float missileCounter;
+
+    [Header("Homings")]
     public GameObject homing;
+    public float timeBetweenHomings;
+    public float homingSpeed = 4.0f;
+    private float homingCounter;
+
+    [Space(20)]
+    public float maxDistanceToDestroy;
+
     public float distanceFromCenter;
     private Vector3[] sides = { Vector3.forward, Vector3.right, Vector3.back, Vector3.left };
 
     public directions spawnMode = directions.upDown;
 
-    public float timeBetweenMissiles;
-    public float timeBetweenHomings;
-    public float maxDistanceToDestroy;
-    private float missileCounter;
-    private float homingCounter;
 
     void Awake()
     {

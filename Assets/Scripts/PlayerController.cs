@@ -105,6 +105,7 @@ public class PlayerController : MonoBehaviour
             GameObject.Instantiate(particles, transform.position, transform.rotation);
         canTeleport = false;
         teleportCounter = teleportCooldown;
+        gameManager.ResetTimer();
     }
 
     void PerformMovement()
